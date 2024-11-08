@@ -17,5 +17,11 @@
   "bugs": {
     "url": "https://github.com/JM-Rib/sds2/issues"
   },
-  "homepage": "https://github.com/JM-Rib/sds2#readme"
+  "homepage": "https://github.com/JM-Rib/sds2#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "helmet": "^8.0.0"
+  }
 }
