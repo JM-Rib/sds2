@@ -1,0 +1,21 @@
+{
+  "name": "sds2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JM-Rib/sds2.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JM-Rib/sds2/issues"
+  },
+  "homepage": "https://github.com/JM-Rib/sds2#readme"
+}
