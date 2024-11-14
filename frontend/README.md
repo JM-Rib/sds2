@@ -25,11 +25,33 @@ The role and responsibilties of each member of the team are described as follows
 We communicate using Whatsapp and we meet online using Google meets
 
 ## Installation manual
-After cloning this repository, use the following command to install all dependancies:
+Clone this repository:
+### `git clone https://github.com/JM-Rib/sds2.git`
+
+After cloning this repository, head into the frontend part of the application
+
+### `cd sds2/frontend`
+
+Use the following command to install all dependancies:
 
 ### `npm install`
 
-Then execute the next command to start the frontend part of the application
+Head into the backend part of the app:
+
+### `cd ../backend`
+
+Install all dependancies for the backend:
+
+### `npm install`
+
+## Launching the app:
+
+To launch the app, in two different terminals, go into the frontend and backend folders:
+
+### `cd backend`
+### `cd frontend`
+
+In each terminal, execute the following command:
 
 ### `npm start`
 
