@@ -20,7 +20,8 @@
   "scripts": {
     "start:frontend": "react-scripts start",
     "start:backend": "nodemon ../backend/index.js",
-    "start": "concurrently \"npm run start:frontend\" \"npm run start:backend\""
+    "start": "concurrently \"npm run start:frontend\" \"npm run start:backend\"",
+    "build": "react-scripts build"
   },
   "eslintConfig": {
     "extends": [
