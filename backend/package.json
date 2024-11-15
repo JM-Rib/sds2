@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon index.js"
   },
-  "proxy": "http://localhost:3300"  ,
+  "proxy": "http://localhost:3300",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/JM-Rib/sds2.git"
