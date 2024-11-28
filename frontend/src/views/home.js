@@ -1,5 +1,6 @@
 import { io } from 'socket.io-client';
 import { useEffect, useState, useRef } from "react";
+import './home.css';
 
 const Home = () => {
     const [message, setMessage] = useState('');
@@ -28,10 +29,12 @@ const Home = () => {
     };
 
     return (
-        <div className="App">
-            <button> Create Room </button>
+        <div className="main-content">
+            <h1 className="title">Planning Poker</h1>
+            <button className="create-room-button">Create Room</button>
         </div>
     );
 }
 
 export default Home;
+
