@@ -6,13 +6,15 @@ import { Badge } from 'primereact/badge';
 import { AvatarGroup } from 'primereact/avatargroup';   
 
 import UserIcon from '../components/UserIcon';
+import VoteSelect from '../components/VoteSelect';
 
-        
 const Room = () => {
     const [messages, setMessages] = useState(new Array(0).fill(""))
     const [message, setMessage] = useState('')
     const [messageReceived, setMessageReceived] = useState('');
     const socketRef = useRef(null);
+    
+    const [vote, setVote] = useState(0);
 
     const userInfo = [
         {
@@ -47,11 +49,20 @@ const Room = () => {
 
     return (
         <div className="main-content">
-            <div className="flex gap-14">
+            <div className="grid grid-cols-5 gap-14 mb-40">
                 {userInfo.map( (user) => (
                     <UserIcon vote={user.vote} name={user.name} />
                 ))}
             </div>
+            <div className="mb-10">
+            {
+                vote === 0 ? "You have not voted yet"
+                :
+                    `You voted ${vote}`
+            }
+
+            </div>
+            <VoteSelect setVote={setVote} ></VoteSelect>
         </div>
     );
 }
