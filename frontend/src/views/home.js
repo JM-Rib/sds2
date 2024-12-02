@@ -1,11 +1,13 @@
 import { io } from 'socket.io-client';
-import { useEffect, useState, useRef } from "react";
+import {useEffect, useState, useRef, useContext} from "react";
 import './home.css';
+import UserContext from "../UserContext.js";
 
 const Home = () => {
     const [message, setMessage] = useState('');
     const [messageReceived, setMessageReceived] = useState('');
     const socketRef = useRef(null);
+    const { name, surname } = useContext(UserContext);
 
     useEffect(() => {
         const url = process.env.REACT_APP_API_URL ? process.env.REACT_APP_API_URL : "http://localhost:5000";
@@ -31,10 +33,10 @@ const Home = () => {
     return (
         <div className="main-content">
             <h1 className="title">Planning Poker</h1>
+            <h2 className="welcome">Welcome, {name} {surname}!</h2>
             <button className="create-room-button">Join Room</button>
         </div>
     );
 }
 
 export default Home;
-

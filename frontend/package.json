@@ -22,7 +22,7 @@
   },
   "scripts": {
     "start:frontend": "react-scripts start",
-    "start:backend": "nodemon ../backend/index.js",
+    "start:backend": "nodemon ../backend/server.js",
     "start": "concurrently \"npm run start:frontend\" \"npm run start:backend\"",
     "build": "react-scripts build"
   },

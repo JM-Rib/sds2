@@ -17,7 +17,10 @@
     margin-bottom: 20px;
 }
 
-
+.welcome {
+    margin-bottom: 30px;
+    font-size: 2rem;
+}
 .create-room-button {
     padding: 10px 20px;
     font-size: 1.2rem;
@@ -27,6 +30,7 @@
     border-radius: 5px;
     cursor: pointer;
 }
+
 
 .create-room-button:hover {
     background-color: #0056b3; /* Darker shade on hover */
