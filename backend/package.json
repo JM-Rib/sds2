@@ -7,6 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon server.js"
   },
+  "type": "module",
   "proxy": "http://localhost:3300",
   "repository": {
     "type": "git",
@@ -26,6 +27,7 @@
     "express": "^4.21.1",
     "helmet": "^8.0.0",
     "jsonwebtoken": "^9.0.2",
+    "nanoid": "^5.0.9",
     "nodemon": "^3.1.7",
     "socket.io": "^4.8.1"
   }

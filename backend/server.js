@@ -1,14 +1,38 @@
-const express = require("express");
+import express from 'express';
 const app = express();
-const http = require("http");
-const { Server } = require("socket.io");
-const cors = require("cors");
-const {CLIENT_URL} = require("./config");
-require('dotenv').config();
+import http from 'http';
+import { Server } from "socket.io";
+import cors from "cors";
+import {CLIENT_URL} from "./config.js";
+import {JwtService} from "./Services/JwtService.js";
 
 app.use(cors());
+app.use(express.json());
 
 const server = http.createServer(app);
+
+app.post('/new-room', async (req, res) => {
+    try {
+        const {name, surname} = req.body;
+        const token = await JwtService.getToken(name, surname, Date.now())
+        res.status(200).json({status: 'success', token: token})
+    } catch (error) {
+        res.status(500).json({status: 'error', message: 'Something went wrong', error: error.message})
+    }
+})
+
+app.get('/room/:room', async (req, res) => {
+    try {
+        const {room} = req.params;
+        const verifiedToken = JwtService.validateToken(room)
+        if (!verifiedToken) {
+            res.status(401).json({status: 'error', message: 'Invalid token'})
+        }
+        res.status(200).json({status: 'success', token: verifiedToken})
+    } catch (error) {
+        res.status(500).json({status: 'error', message: 'Something went wrong'})
+    }
+})
 
 const io = new Server(server, {
     cors: {
