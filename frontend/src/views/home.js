@@ -31,7 +31,7 @@ const Home = () => {
     return (
         <div className="main-content">
             <h1 className="title">Planning Poker</h1>
-            <button className="create-room-button">Create Room</button>
+            <button className="create-room-button">Join Room</button>
         </div>
     );
 }
