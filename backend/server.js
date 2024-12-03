@@ -6,7 +6,10 @@ import cors from "cors";
 import {CLIENT_URL} from "./config.js";
 import {JwtService} from "./Services/JwtService.js";
 
-app.use(cors());
+app.use(cors({
+    origin: `http://localhost:3000`,
+    credentials: true
+}));
 app.use(express.json());
 
 const server = http.createServer(app);
@@ -24,11 +27,12 @@ app.post('/new-room', async (req, res) => {
 app.get('/room/:room', async (req, res) => {
     try {
         const {room} = req.params;
-        const verifiedToken = JwtService.validateToken(room)
-        if (!verifiedToken) {
+        const verifiedToken = await JwtService.validateToken(room)
+        if (verifiedToken.status === 'error') {
             res.status(401).json({status: 'error', message: 'Invalid token'})
+        } else {
+            res.status(200).json({status: 'success', token: verifiedToken})
         }
-        res.status(200).json({status: 'success', token: verifiedToken})
     } catch (error) {
         res.status(500).json({status: 'error', message: 'Something went wrong'})
     }

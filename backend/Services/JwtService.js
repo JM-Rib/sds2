@@ -14,7 +14,12 @@ export class JwtService {
     }
 
     static async validateToken(token) {
-        return jwt.verify(token, SECRET_JWT_KEY);
+        try {
+            jwt.verify(token, SECRET_JWT_KEY);
+            return {status: 'success', token: token};
+        } catch (error) {
+            return {status: 'error', message: 'Something went wrong'};
+        }
     }
 
 }

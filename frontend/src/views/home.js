@@ -2,12 +2,14 @@ import { io } from 'socket.io-client';
 import {useEffect, useState, useRef, useContext} from "react";
 import './home.css';
 import UserContext from "../UserContext.js";
+import {useNavigate} from "react-router-dom";
 
 const Home = () => {
     const [message, setMessage] = useState('');
     const [messageReceived, setMessageReceived] = useState('');
     const socketRef = useRef(null);
     const { name, surname } = useContext(UserContext);
+    const navigate = useNavigate();
 
     /*useEffect(() => {
         const url = process.env.REACT_APP_API_URL ? process.env.REACT_APP_API_URL : "http://localhost:5000";
@@ -45,6 +47,7 @@ const Home = () => {
                 setMessage(data.message);
             }
             console.log('Room created:', data); // Handle success as needed
+            navigate(`/room/${data.token}`)
         } catch (error) {
             console.error('Error creating room:', error);
             setMessage(error.message);
