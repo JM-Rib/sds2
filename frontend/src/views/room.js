@@ -7,7 +7,7 @@ import { AvatarGroup } from 'primereact/avatargroup';
 
 import UserIcon from '../components/UserIcon';
 import VoteSelect from '../components/VoteSelect';
-import UserContext from "../UserContext.js";
+import UserContext from "../contexts/UserContext.js";
 import {useNavigate, useParams} from "react-router-dom";
 
 const Room = () => {

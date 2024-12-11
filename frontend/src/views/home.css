@@ -30,6 +30,16 @@
     border-radius: 5px;
     cursor: pointer;
 }
+.join-room-button {
+    padding: 10px 32px;
+    font-size: 1.2rem;
+    background-color: #49ff00;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+}
 
 
 .create-room-button:hover {
