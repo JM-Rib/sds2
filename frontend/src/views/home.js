@@ -3,7 +3,7 @@ import {useEffect, useState, useRef, useContext} from "react";
 import './home.css';
 import UserContext from "../contexts/UserContext.js";
 import RoomContext from "../contexts/RoomContext";
-import {useNavigate, useParams} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
 const Home = () => {
     const [message, setMessage] = useState('');
@@ -60,34 +60,31 @@ const Home = () => {
     const onClickJoin = () => {
         const storedName = localStorage.getItem('name')
         const storedSurname = localStorage.getItem('surname')
-        const storedRoom = localStorage.getItem('roomID')
-        let { room } = useParams();
+        let storedRoom = localStorage.getItem('roomID')
         if (storedName && storedSurname && storedRoom) {
             setName(storedName)
             setSurname(storedSurname)
             setRoomID(storedRoom)
         }
         else {
-            if (!room) {
-                const userName = prompt("Please enter your name:")
-                const userSurname = prompt("Please enter your surname:")
-                const userRoom = prompt("Please enter the room ID:")
+            const userName = prompt("Please enter your name:")
+            const userSurname = prompt("Please enter your surname:")
+            const userRoom = prompt("Please enter the room ID:")
 
-                if (userName && userSurname && userRoom) {
-                    localStorage.setItem('name', userName)
-                    localStorage.setItem('surname', userSurname)
-                    localStorage.setItem('roomID', userRoom)
-                    setName(userName)
-                    setSurname(userSurname)
-                    setRoomID(userRoom)
-                    room = userRoom
-                }
-                else {
-                    setMessage('Error')
-                }
+            if (userName && userSurname && userRoom) {
+                localStorage.setItem('name', userName)
+                localStorage.setItem('surname', userSurname)
+                localStorage.setItem('roomID', userRoom)
+                setName(userName)
+                setSurname(userSurname)
+                setRoomID(userRoom)
+                storedRoom = userRoom
+            }
+            else {
+                setMessage('Error')
             }
         }
-        joinRoom(room)
+        joinRoom(storedRoom)
     }
 
     const joinRoom = async (token) => {
