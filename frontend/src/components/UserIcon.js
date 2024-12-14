@@ -1,4 +1,3 @@
-import React, { useState, useEffect } from 'react';
 import { Avatar } from 'primereact/avatar';
 import { Badge } from 'primereact/badge';
 
