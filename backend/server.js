@@ -3,12 +3,13 @@ import http from 'http';
 import { Server } from "socket.io";
 import cors from "cors";
 import {nanoid, random} from "nanoid";
+import {CLIENT_URL} from "./config.js";
 
 const app = express();
 const server = http.createServer(app);
 
 app.use(cors({
-    origin: `http://localhost:3000`,
+    origin: CLIENT_URL,
     credentials: true
 }));
 app.use(express.json());
@@ -43,7 +44,7 @@ app.get('/room/:roomId', (req, res) => {
 
 const io = new Server(server, {
     cors: {
-        origin: `http://localhost:3000`,
+        origin: CLIENT_URL,
         methods: ["GET", "POST"],
     },
 });

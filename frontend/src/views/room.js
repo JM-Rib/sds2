@@ -6,6 +6,8 @@ import VoteSelect from "../components/VoteSelect";
 import DisplayPrompt from "../components/DisplayPrompt";
 import "./room.css";
 
+const API_URL = process.env.REACT_APP_API_URL ? process.env.REACT_APP_API_URL : "http://localhost:5000";
+
 const Room = () => {
     const socketRef = useRef(null);
     const [userData, setUserData] = useState({}); // Room-specific user data
@@ -19,7 +21,7 @@ const Room = () => {
 
     useEffect(() => {
         // Establish WebSocket connection
-        socketRef.current = io("http://localhost:5000");
+        socketRef.current = io(API_URL);
 
         // Listen for room updates
         socketRef.current.on("room_update", (updatedRoomData) => {
