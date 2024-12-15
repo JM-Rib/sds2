@@ -10,6 +10,8 @@ import VoteSelect from '../components/VoteSelect';
 import UserContext from "../contexts/UserContext.js";
 import {useNavigate, useParams} from "react-router-dom";
 
+const API_URL = process.env.REACT_APP_API_URL ? process.env.REACT_APP_API_URL : "http://localhost:5000";
+
 const Room = () => {
     const [messages, setMessages] = useState(new Array(0).fill(""));
     const [message, setMessage] = useState('');
@@ -32,7 +34,7 @@ const Room = () => {
     useEffect(() => {
         const checkToken = async () => {
             try {
-                const response = await fetch(`http://localhost:5000/room/${roomid}`, {
+                const response = await fetch(`${API_URL}/room/${roomid}`, {
                     method: 'GET',
                     credentials: 'include',
                 });

@@ -7,7 +7,7 @@ import {CLIENT_URL} from "./config.js";
 import {JwtService} from "./Services/JwtService.js";
 
 app.use(cors({
-    origin: `http://localhost:3000`,
+    origin: CLIENT_URL,
     credentials: true
 }));
 app.use(express.json());

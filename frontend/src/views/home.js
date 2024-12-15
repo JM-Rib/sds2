@@ -8,6 +8,8 @@ import { InputText } from "primereact/inputtext";
 import { InputTextarea } from "primereact/inputtextarea";
 import { FloatLabel } from "primereact/floatlabel";
 
+const API_URL = process.env.REACT_APP_API_URL ? process.env.REACT_APP_API_URL : "http://localhost:5000";
+
 const Home = () => {
     const [message, setMessage] = useState('');
     const [messageReceived, setMessageReceived] = useState('');
@@ -76,7 +78,7 @@ const Home = () => {
 
     const joinRoom = async (token) => {
         try {
-            const response = await fetch(`http://localhost:5000/room/${token}`, {
+            const response = await fetch(`${API_URL}/room/${token}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -100,7 +102,7 @@ const Home = () => {
 
     const createRoom = async () => {
         try {
-            const response = await fetch('http://localhost:5000/new-room', {
+            const response = await fetch(`${API_URL}/new-room`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
