@@ -1,11 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { Avatar } from 'primereact/avatar';
-import { Badge } from 'primereact/badge';
 import { Button } from 'primereact/button';
 
 const VoteSelect = ({setVote}) => {
 
-    // const [voteValues, setVoteValues] = useState(new Array(10).fill(0))
 
     const voteValues = [
         1,

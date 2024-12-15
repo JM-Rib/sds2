@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Bangers&display=swap');
-
 .main-content {
     display: flex;
     flex-direction: column;
@@ -7,12 +5,11 @@
     justify-content: center;
     height: 100vh;
     text-align: center;
-    background-color: #transparency; /* for optional background color */
+    background-color: transparent; /* for optional background color */
 }
 
 .title {
-    font-size: 6rem; /* for an increased font size */
-    font-family: 'Bangers', cursive; /* using a Bangers font */
+    font-size: 6rem;
     color: #333;
     margin-bottom: 20px;
 }
@@ -21,125 +18,136 @@
     margin-bottom: 30px;
     font-size: 2rem;
 }
-.create-room-button {
-    padding: 10px 20px;
+
+/* Button styles for "Create Room" and "Join Room" */
+.create-room-button, .join-room-button {
+    padding: 12px 24px;
     font-size: 1.2rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.create-room-button {
     background-color: #007bff;
     color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-.join-room-button {
-    padding: 10px 32px;
-    font-size: 1.2rem;
-    background-color: #49ff00;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-top: 10px;
 }
 
 .create-room-button:hover {
-    background-color: #0056b3; /* Darker shade on hover */
+    background-color: #0056b3;
+}
+
+.join-room-button {
+    background-color: #007bff;
+    color: white;
+    margin-top: 10px;
+}
+
+.join-room-button:hover {
+    background-color: #0056b3;
+}
+
+/* Button active state */
+.create-room-button:active, .join-room-button:active {
+    background-color: #003f7f;
 }
 
 body {
-  position: relative;
-  background-color: transparency;
-  overflow: hidden; /* prevents scrollbars from appearing due to animation */
+    position: relative;
+    background-color: transparent;
+    overflow: hidden; /* prevents scrollbars from appearing due to animation */
 }
 
 .animated-background {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none; /* Allow interactions with other elements */
-  z-index: -1; /* Ensure it stays behind other content */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; /* Allow interactions with other elements */
+    z-index: -1; /* Ensure it stays behind other content */
 }
 
 .square {
-  position: absolute;
-  width: 50px;
-  height: 50px;
-  background-color: lightblue;
-  opacity: 0.8;
-  animation: moveSquare 10s linear infinite;
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    background-color: lightblue;
+    opacity: 0.8;
+    animation: moveSquare 10s linear infinite;
 }
 
 @keyframes moveSquare {
-  0% {
-    transform: translate(0, 0) rotate(0deg);
-  }
-  25% {
-    transform: translate(50px, 100px) rotate(45deg);
-  }
-  50% {
-    transform: translate(100px, -50px) rotate(90deg);
-  }
-  75% {
-    transform: translate(-50px, -100px) rotate(135deg);
-  }
-  100% {
-    transform: translate(0, 0) rotate(360deg);
-  }
+    0% {
+        transform: translate(0, 0) rotate(0deg);
+    }
+    25% {
+        transform: translate(50px, 100px) rotate(45deg);
+    }
+    50% {
+        transform: translate(100px, -50px) rotate(90deg);
+    }
+    75% {
+        transform: translate(-50px, -100px) rotate(135deg);
+    }
+    100% {
+        transform: translate(0, 0) rotate(360deg);
+    }
 }
 
 /* Generate multiple squares dynamically */
 @keyframes randomMove {
-  0% {
-    transform: translateX(0) translateY(0);
-  }
-  100% {
-    transform: translateX(calc(100vw - 20px)) translateY(calc(100vh - 20px));
-  }
+    0% {
+        transform: translateX(0) translateY(0);
+    }
+    100% {
+        transform: translateX(calc(100vw - 20px)) translateY(calc(100vh - 20px));
+    }
 }
 
 .square:nth-child(1) {
-  top: 10%;
-  left: 20%;
-  width: 35px;
-  height: 35px;
-  animation-duration: 12s;
+    top: 10%;
+    left: 20%;
+    width: 35px;
+    height: 35px;
+    animation-duration: 12s;
 }
 
 .square:nth-child(2) {
-  top: 50%;
-  left: 70%;
-  width: 35px;
-  height: 35px;
-  animation-duration: 8s;
+    top: 50%;
+    left: 70%;
+    width: 35px;
+    height: 35px;
+    animation-duration: 8s;
 }
 
 .square:nth-child(3) {
-  top: 30%;
-  left: 10%;
-  width: 35px;
-  height: 35px;
-  animation-duration: 14s;
+    top: 30%;
+    left: 10%;
+    width: 35px;
+    height: 35px;
+    animation-duration: 14s;
 }
 
 .square:nth-child(4) {
-  top: 80%;
-  left: 50%;
-  width: 35px;
-  height: 35px;
-  animation-duration: 10s;
+    top: 80%;
+    left: 50%;
+    width: 35px;
+    height: 35px;
+    animation-duration: 10s;
 }
 
 .square:nth-child(5) {
-  top: 20%;
-  left: 40%;
-  animation-duration: 9s;
+    top: 20%;
+    left: 40%;
+    animation-duration: 9s;
 }
 
 .square:nth-child(6) {
-  top: 60%;
-  left: 80%;
-  animation-duration: 11s;
+    top: 60%;
+    left: 80%;
+    animation-duration: 11s;
 }
 
 .square.top-right {
@@ -153,5 +161,3 @@ body {
     left: 5%;
     animation-duration: 10s;
 }
-
-
