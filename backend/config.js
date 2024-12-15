@@ -1,4 +1,5 @@
-require('dotenv').config();
+import dotenv from 'dotenv';
+dotenv.config();
 
 export const {
     SECRET_JWT_KEY = 'ALKSFJHLkajhsLF38HROWEFUP093ruFOIHDhdkfjhslfhaf8HOWIFdjDJFHSL',
