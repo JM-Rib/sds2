@@ -56,7 +56,6 @@ const Home = () => {
             </div>
             {message && <p className="error-message">{message}</p>}
             
-            <WaitingRoundStart></WaitingRoundStart>
         </div>
     );
 }
