@@ -22,7 +22,7 @@ app.post('/new-room', (req, res) => {
         let counter = 0;
         let roomId = "";
         while (counter < length) {
-            roomId += alphabet.charAt(Math.floor(Math.random() * length));
+            roomId += alphabet.charAt(Math.floor(Math.random() * alphabet.length));
             counter += 1;
         }
         rooms[roomId] = { users: {}, owner: "", state: "waiting" };
@@ -77,6 +77,10 @@ io.on("connection", (socket) => {
 
     socket.on("start_round", ({ roomId }) => {
         if (rooms[roomId]?.owner === socket.id) {
+            // Reset votes for the next round
+            Object.keys(rooms[roomId].users).forEach(socketId => {
+                rooms[roomId].users[socketId].vote = "-";
+            });
             rooms[roomId].state = 'voting';
             io.to(roomId).emit("room_update", rooms[roomId]);
         }
@@ -86,6 +90,13 @@ io.on("connection", (socket) => {
         if (rooms[roomId] && rooms[roomId].users[socket.id]) {
             rooms[roomId].users[socket.id].vote = vote; // Update vote for the user
             io.to(roomId).emit("room_update", rooms[roomId]); // Broadcast updated room data
+
+            // Check if all users have voted
+            const allUsersVoted = Object.values(rooms[roomId].users).every(user => user.vote !== "-");
+            if (allUsersVoted) {
+                rooms[roomId].state = 'waiting';
+                io.to(roomId).emit("room_update", rooms[roomId]);
+            }
         }
     });
 
@@ -104,6 +115,17 @@ io.on("connection", (socket) => {
                 io.to(roomId).emit("room_update", rooms[roomId]);
                 if (!Object.keys(rooms[roomId].users).length) delete rooms[roomId];
             }
+        }
+    });
+
+    // Automatically end the voting phase when the timer reaches zero
+    socket.on("end_voting", ({ roomId }) => {
+        if (rooms[roomId]) {
+            rooms[roomId].state = 'waiting';
+            Object.keys(rooms[roomId].users).forEach(socketId => {
+                rooms[roomId].users[socketId].vote = 0;
+            });
+            io.to(roomId).emit("room_update", rooms[roomId]);
         }
     });
 });
