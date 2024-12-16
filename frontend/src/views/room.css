@@ -135,3 +135,37 @@
 .invite-modal.active + .main-content {
     filter: blur(3px);
 }
+
+/* Center container for the Start Round button */
+.center-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Full height of the viewport */
+    width: 100%; /* Full width of the container */
+}
+
+/* Start Round button styles */
+.start-round-button {
+    background-color: #007bff; /* Blue color like invite-button */
+    color: white; /* White text */
+    border: none; /* No border */
+    padding: 15px 30px; /* Padding inside the button */
+    font-size: 18px; /* Larger text */
+    font-weight: bold; /* Bold text */
+    border-radius: 8px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor */
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth hover/press transition */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    text-transform: uppercase; /* Make text uppercase */
+}
+
+.start-round-button:hover {
+    background-color: #0056b3; /* Slightly darker blue on hover */
+    transform: translateY(-2px); /* Lift the button */
+}
+
+.start-round-button:active {
+    background-color: #003f7f; /* Even darker blue on click */
+    transform: translateY(1px); /* Press effect */
+}

@@ -6,36 +6,37 @@ import VoteSelect from "../components/VoteSelect";
 import DisplayPrompt from "../components/DisplayPrompt";
 import "./room.css";
 
-const API_URL = process.env.REACT_APP_API_URL ? process.env.REACT_APP_API_URL : "http://localhost:5000";
+const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
 
 const Room = () => {
     const socketRef = useRef(null);
-    const [userData, setUserData] = useState({}); // Room-specific user data
-    const [currentUser, setCurrentUser] = useState(""); // Current user's display name
-    const [showPrompt, setShowPrompt] = useState(true); // Modal visibility
-    const [inputName, setInputName] = useState(""); // Input for display name
-    const [errorMessage, setErrorMessage] = useState(""); // Error message state
-    const [showInviteModal, setShowInviteModal] = useState(false); // State for the invite modal
+    const [userData, setUserData] = useState({});
+    const [currentUser, setCurrentUser] = useState("");
+    const [showPrompt, setShowPrompt] = useState(true);
+    const [inputName, setInputName] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
+    const [showInviteModal, setShowInviteModal] = useState(false);
+    const [owner, setOwner] = useState("");
+    const [roomState, setRoomState] = useState("waiting");
     const { roomid } = useParams();
     const navigate = useNavigate();
 
     useEffect(() => {
-        // Establish WebSocket connection
         socketRef.current = io(API_URL);
 
-        // Listen for room updates
-        socketRef.current.on("room_update", (updatedRoomData) => {
-            setUserData(updatedRoomData); // Update room-specific user data
+        socketRef.current.on("room_update", ({ users, owner, state }) => {
+            setUserData(users);
+            setOwner(owner);
+            setRoomState(state);
         });
 
-        // Listen for room errors (e.g., room doesn't exist)
-        socketRef.current.on("room_error", (error) => {
-            setErrorMessage(error.message); // Display error message if room doesn't exist
-            setShowPrompt(false); // Hide display name prompt
+        socketRef.current.on("room_error", ({ message }) => {
+            setErrorMessage(message);
+            setShowPrompt(false);
         });
 
         return () => {
-            socketRef.current.disconnect(); // Clean up connection on unmount
+            socketRef.current.disconnect();
         };
     }, [navigate]);
 
@@ -44,7 +45,6 @@ const Room = () => {
             setCurrentUser(inputName.trim());
             setShowPrompt(false);
 
-            // Emit join_room event
             socketRef.current.emit("join_room", {
                 roomId: roomid,
                 displayName: inputName.trim(),
@@ -55,8 +55,7 @@ const Room = () => {
     };
 
     const handleVote = (newVote) => {
-        if (socketRef.current) {
-            // Emit vote update to the server
+        if (roomState === 'voting' && socketRef.current) {
             socketRef.current.emit("update_vote", {
                 roomId: roomid,
                 vote: newVote,
@@ -65,26 +64,31 @@ const Room = () => {
     };
 
     const handleGoHome = () => {
-        navigate("/"); // Navigate back to home page
+        navigate("/");
     };
 
     const handleInviteClick = () => {
-        setShowInviteModal(true); // Show the invite modal when the button is clicked
+        setShowInviteModal(true);
     };
 
     const handleCopyLink = () => {
-        const roomUrl = window.location.href; // Get the current URL of the room
-        navigator.clipboard.writeText(roomUrl); // Copy the URL to clipboard
-        setShowInviteModal(false); // Close the invite modal
+        const roomUrl = window.location.href;
+        navigator.clipboard.writeText(roomUrl);
+        setShowInviteModal(false);
     };
 
     const handleCloseInviteModal = () => {
-        setShowInviteModal(false); // Close the invite modal when the "X" is clicked
+        setShowInviteModal(false);
+    };
+
+    const handleStartRound = () => {
+        if (socketRef.current) {
+            socketRef.current.emit("start_round", { roomId: roomid });
+        }
     };
 
     return (
         <div className="main-content">
-            {/* Error message if room doesn't exist */}
             {errorMessage && (
                 <div>
                     <p className="error-message">{errorMessage}</p>
@@ -94,7 +98,6 @@ const Room = () => {
                 </div>
             )}
 
-            {/* Invite Players button */}
             <button
                 className="invite-button"
                 onClick={handleInviteClick}
@@ -103,7 +106,6 @@ const Room = () => {
                 Invite Players
             </button>
 
-            {/* Invite Modal */}
             {showInviteModal && (
                 <div className="invite-modal">
                     <div className="invite-modal-content">
@@ -128,7 +130,6 @@ const Room = () => {
                 </div>
             )}
 
-            {/* Modal to enter display name */}
             {!errorMessage && showPrompt && (
                 <DisplayPrompt
                     inputName={inputName}
@@ -137,20 +138,32 @@ const Room = () => {
                 />
             )}
 
-            {/* Main room content */}
             {!showPrompt && !errorMessage && (
                 <>
+                    {owner === socketRef.current.id && roomState === 'waiting' && (
+                        <div className="center-container">
+                            <button onClick={handleStartRound} className="start-round-button">
+                                Start Round
+                            </button>
+                        </div>
+                    )}
                     <div className="grid grid-cols-5 gap-14 mb-40">
-                        {Object.entries(userData).map(([socketId, { displayName, vote }]) => (
-                            <UserIcon key={socketId} vote={vote} name={displayName.substring(0,2)} />
-                        ))}
+                        {Object.entries(userData).map(([socketId, user]) =>
+                            user?.displayName ? (
+                                <UserIcon
+                                    key={socketId}
+                                    vote={user.vote}
+                                    name={user.displayName.substring(0, 2)}
+                                />
+                            ) : null
+                        )}
                     </div>
                     <div className="mb-10">
                         {userData[socketRef.current.id]?.vote === 0
                             ? "You have not voted yet"
                             : `You voted ${userData[socketRef.current.id]?.vote}`}
                     </div>
-                    <VoteSelect setVote={handleVote} />
+                    {roomState === "voting" && <VoteSelect setVote={handleVote} />}
                 </>
             )}
         </div>
