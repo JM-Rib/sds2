@@ -161,3 +161,7 @@ body {
     left: 5%;
     animation-duration: 10s;
 }
+
+.p-progress-spinner-circle {
+    stroke: var(--primary-color) !important;
+}

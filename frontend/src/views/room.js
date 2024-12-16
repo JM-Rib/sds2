@@ -4,6 +4,7 @@ import { io } from "socket.io-client";
 import UserIcon from "../components/UserIcon";
 import VoteSelect from "../components/VoteSelect";
 import DisplayPrompt from "../components/DisplayPrompt";
+import WaitingRoundStart from "../components/WaitingRoundStart";
 import "./room.css";
 
 const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
@@ -157,6 +158,11 @@ const Room = () => {
                             <button onClick={handleStartRound} className="start-round-button">
                                 Start Round
                             </button>
+                        </div>
+                    )}
+                    {owner !== socketRef.current.id && roomState === 'waiting' && (
+                        <div className="center-container">
+                            <WaitingRoundStart></WaitingRoundStart>
                         </div>
                     )}
 

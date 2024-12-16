@@ -1,6 +1,7 @@
 import {useState, useRef} from "react";
 import './home.css';
 import {useNavigate} from "react-router-dom";
+import WaitingRoundStart from "../components/WaitingRoundStart";
 
 const API_URL = process.env.REACT_APP_API_URL ? process.env.REACT_APP_API_URL : "http://localhost:5000";
 
@@ -54,6 +55,8 @@ const Home = () => {
                 </div>
             </div>
             {message && <p className="error-message">{message}</p>}
+            
+            <WaitingRoundStart></WaitingRoundStart>
         </div>
     );
 }
