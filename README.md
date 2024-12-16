@@ -46,7 +46,7 @@ Install all dependancies for the backend:
 
 ## Launching the app:
 
-To launch the app, in two different terminals, go into the frontend folder:
+To launch the app, go into the frontend folder:
 
 ### `cd frontend`
 
