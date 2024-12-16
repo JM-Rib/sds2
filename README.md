@@ -46,13 +46,12 @@ Install all dependancies for the backend:
 
 ## Launching the app:
 
-To launch the app, in two different terminals, go into the frontend and backend folders:
+To launch the app, in two different terminals, go into the frontend folder:
 
-### `cd backend`
 ### `cd frontend`
 
-In each terminal, execute the following command:
+Then, execute the following command:
 
-### `npm start`
+### `npm run start`
 
 The application will be accessible at the following address [http://localhost:3000](http://localhost:3000) 
