@@ -41,6 +41,11 @@ const Room = () => {
     }, [navigate]);
 
     const handleJoinRoom = () => {
+        if (roomState === 'voting') {
+            setErrorMessage("Voting is currently in progress. You cannot join the room at this time.");
+            return;
+        }
+
         if (inputName.trim()) {
             setCurrentUser(inputName.trim());
             setShowPrompt(false);
@@ -87,13 +92,20 @@ const Room = () => {
         }
     };
 
+    const handleReconnect = () => {
+        window.location.reload();
+    };
+
     return (
         <div className="main-content">
-            {errorMessage && (
-                <div>
-                    <p className="error-message">{errorMessage}</p>
-                    <button className="create-room-button" onClick={handleGoHome}>
-                        Go Back to Home
+            {(errorMessage || (roomState === "voting" && !currentUser)) && (
+                <div className="error-container">
+                    <p className="error-message">{errorMessage || "Voting is currently in progress. You cannot join the room at this time."}</p>
+                    <button
+                        className="error-button"
+                        onClick={errorMessage ? handleGoHome : handleReconnect}
+                    >
+                        {errorMessage ? "Go Back to Home" : "Try Again"}
                     </button>
                 </div>
             )}
@@ -130,7 +142,7 @@ const Room = () => {
                 </div>
             )}
 
-            {!errorMessage && showPrompt && (
+            {!errorMessage && showPrompt && roomState !== "voting" && (
                 <DisplayPrompt
                     inputName={inputName}
                     setInputName={setInputName}
@@ -147,6 +159,7 @@ const Room = () => {
                             </button>
                         </div>
                     )}
+
                     <div className="grid grid-cols-5 gap-14 mb-40">
                         {Object.entries(userData).map(([socketId, user]) =>
                             user?.displayName ? (
@@ -158,12 +171,14 @@ const Room = () => {
                             ) : null
                         )}
                     </div>
+
                     <div className="mb-10">
                         {userData[socketRef.current.id]?.vote === 0
                             ? "You have not voted yet"
                             : `You voted ${userData[socketRef.current.id]?.vote}`}
                     </div>
-                    {roomState === "voting" && <VoteSelect setVote={handleVote} />}
+
+                    {roomState === "voting" && (userData[socketRef.current.id]?.vote === 0) && <VoteSelect setVote={handleVote} />}
                 </>
             )}
         </div>

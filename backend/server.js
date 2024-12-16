@@ -2,7 +2,6 @@ import express from 'express';
 import http from 'http';
 import { Server } from "socket.io";
 import cors from "cors";
-import { nanoid } from "nanoid";
 import { CLIENT_URL } from "./config.js";
 
 const app = express();
@@ -18,7 +17,14 @@ const rooms = {}; // Structure: { roomId: { users: {}, owner: "", state: "waitin
 
 app.post('/new-room', (req, res) => {
     try {
-        const roomId = nanoid(8); // Generate an 8-character random room ID
+        const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        const length = 6;
+        let counter = 0;
+        let roomId = "";
+        while (counter < length) {
+            roomId += alphabet.charAt(Math.floor(Math.random() * length));
+            counter += 1;
+        }
         rooms[roomId] = { users: {}, owner: "", state: "waiting" };
         console.log(`New Room Created: ${roomId}`);
         res.status(200).json({ status: 'success', roomId }); // Return roomId, not token
@@ -50,6 +56,11 @@ io.on("connection", (socket) => {
     socket.on("join_room", ({ roomId, displayName }) => {
         if (!rooms[roomId]) {
             socket.emit("room_error", { message: "Room does not exist!" });
+            return;
+        }
+
+        if (rooms[roomId].state === 'voting') {
+            socket.emit("room_error", { message: "Voting is currently in progress. You cannot join the room at this time." });
             return;
         }
 
