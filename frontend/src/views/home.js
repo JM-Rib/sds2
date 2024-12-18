@@ -36,6 +36,16 @@ const Home = () => {
         }
     };
 
+    const joinRoom = () => {
+        const roomId = prompt("Enter the Room ID:");
+        if (roomId) {
+            navigate(`/room/${roomId}`);
+        } else {
+            setMessage('Error: Room ID cannot be empty');
+        }
+    };
+
+
     return (
         <div className="main-content">
             <div className="animated-background">
@@ -49,10 +59,9 @@ const Home = () => {
                 <div className="square bottom-left"></div>
             </div>
             <h1 className="title">Planning Poker</h1>
-            <div className="flex gap-[90px]">
-                <div className='p-0 m-0'>
-                    <button className="create-room-button" onClick={() => {createRoom()}}>Create Room</button>
-                </div>
+            <div className="button-container">
+                <button className="create-room-button" onClick={createRoom}>Create Room</button>
+                <button className="join-room-button" onClick={joinRoom}>Join Room</button>
             </div>
             {message && <p className="error-message">{message}</p>}
             

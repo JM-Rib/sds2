@@ -19,6 +19,13 @@
     font-size: 2rem;
 }
 
+.button-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px; /* Spacing between buttons */
+    margin-top: 20px; /* Adjust vertical spacing from other elements */
+}
+
 /* Button styles for "Create Room" and "Join Room" */
 .create-room-button, .join-room-button {
     padding: 12px 24px;
@@ -41,7 +48,6 @@
 .join-room-button {
     background-color: #007bff;
     color: white;
-    margin-top: 10px;
 }
 
 .join-room-button:hover {
