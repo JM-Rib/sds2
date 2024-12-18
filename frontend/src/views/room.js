@@ -30,7 +30,7 @@ const Room = () => {
             setUserData(users);
             setOwner(owner);
             setRoomState(state);
-            if (state === 'waiting') setTimer(60);
+            if (state === "waiting") setTimer(60);
         });
 
         socketRef.current.on("room_error", ({ message }) => {
@@ -44,7 +44,7 @@ const Room = () => {
     }, [navigate]);
 
     useEffect(() => {
-        if (roomState === 'voting') {
+        if (roomState === "voting") {
             const interval = setInterval(() => {
                 setTimer((prev) => {
                     if (prev <= 1) {
@@ -74,7 +74,7 @@ const Room = () => {
     };
 
     const handleVote = (newVote) => {
-        if (roomState === 'voting' && socketRef.current) {
+        if (roomState === "voting" && socketRef.current) {
             socketRef.current.emit("update_vote", {
                 roomId: roomid,
                 vote: newVote,
@@ -111,13 +111,15 @@ const Room = () => {
         window.location.reload();
     };
 
-    const allUsersVoted = Object.values(userData).every(user => user.vote !== 0);
+    const allUsersVoted = Object.values(userData).every((user) => user.vote !== 0);
 
     return (
         <div className="main-content">
             {(errorMessage || (roomState === "voting" && !currentUser)) && (
                 <div className="error-container">
-                    <p className="error-message">{errorMessage || "Voting is currently in progress. You cannot join the room at this time."}</p>
+                    <p className="error-message">
+                        {errorMessage || "Voting is currently in progress. You cannot join the room at this time."}
+                    </p>
                     <button
                         className="error-button"
                         onClick={errorMessage ? handleGoHome : handleReconnect}
@@ -160,7 +162,8 @@ const Room = () => {
             )}
 
             <div className="timer" style={{ position: "absolute", bottom: 20, left: 20 }}>
-                {`Time Left: ${String(Math.floor(timer / 60)).padStart(2, '0')}:${String(timer % 60).padStart(2, '0')}`}
+                Time Left: {String(Math.floor(timer / 60)).padStart(2, "0")}:
+                {String(timer % 60).padStart(2, "0")}
             </div>
 
             {!errorMessage && showPrompt && roomState !== "voting" && (
@@ -173,7 +176,7 @@ const Room = () => {
 
             {!showPrompt && !errorMessage && (
                 <>
-                    {owner === socketRef.current.id && roomState === 'waiting' && (
+                    {owner === socketRef.current.id && roomState === "waiting" && (
                         <div className="center-container">
                             <button onClick={handleStartRound} className="start-round-button">
                                 Start Round
@@ -181,7 +184,7 @@ const Room = () => {
                         </div>
                     )}
 
-                    {owner !== socketRef.current.id && roomState === 'waiting' && (
+                    {owner !== socketRef.current.id && roomState === "waiting" && (
                         <div className="center-container">
                             <WaitingRoundStart></WaitingRoundStart>
                         </div>
@@ -198,7 +201,10 @@ const Room = () => {
                             ) : null
                         )}
                     </div>
-                    {roomState === "voting" && (userData[socketRef.current.id]?.vote === "-") && <VoteSelect setVote={handleVote} />}
+                    {roomState === "voting" &&
+                        userData[socketRef.current.id]?.vote === "-" && (
+                            <VoteSelect setVote={handleVote} />
+                        )}
                 </>
             )}
         </div>

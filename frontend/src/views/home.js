@@ -1,12 +1,13 @@
-import {useState, useRef} from "react";
+import { useState, useRef } from "react";
 import './home.css';
-import {useNavigate} from "react-router-dom";
-import WaitingRoundStart from "../components/WaitingRoundStart";
+import { useNavigate } from "react-router-dom";
+import JoinRoomModal from "../components/JoinRoomModal"; // Import the modal
 
 const API_URL = process.env.REACT_APP_API_URL ? process.env.REACT_APP_API_URL : "http://localhost:5000";
 
 const Home = () => {
     const [message, setMessage] = useState('');
+    const [isModalOpen, setIsModalOpen] = useState(false); // State to control modal visibility
     const socketRef = useRef(null);
     const navigate = useNavigate();
 
@@ -22,11 +23,10 @@ const Home = () => {
             if (!response.ok) {
                 setMessage(data.message);
             }
-            console.log('Room created:', data); // Handle success as needed
+            console.log('Room created:', data);
 
-            // Fix: Ensure that you're using the roomId correctly from the response data
             if (data && data.roomId) {
-                navigate(`/room/${data.roomId}`); // Use roomId, not token
+                navigate(`/room/${data.roomId}`);
             } else {
                 setMessage('Error: Invalid room ID');
             }
@@ -36,8 +36,7 @@ const Home = () => {
         }
     };
 
-    const joinRoom = () => {
-        const roomId = prompt("Enter the Room ID:");
+    const joinRoom = (roomId) => {
         if (roomId) {
             navigate(`/room/${roomId}`);
         } else {
@@ -45,6 +44,13 @@ const Home = () => {
         }
     };
 
+    const handleJoinRoomClick = () => {
+        setIsModalOpen(true); // Open the modal when "Join Room" is clicked
+    };
+
+    const handleCloseModal = () => {
+        setIsModalOpen(false); // Close the modal
+    };
 
     return (
         <div className="main-content">
@@ -61,10 +67,16 @@ const Home = () => {
             <h1 className="title">Planning Poker</h1>
             <div className="button-container">
                 <button className="create-room-button" onClick={createRoom}>Create Room</button>
-                <button className="join-room-button" onClick={joinRoom}>Join Room</button>
+                <button className="join-room-button" onClick={handleJoinRoomClick}>Join Room</button>
             </div>
             {message && <p className="error-message">{message}</p>}
-            
+
+            {/* Render the JoinRoomModal when it's open */}
+            <JoinRoomModal
+                show={isModalOpen}
+                onClose={handleCloseModal}
+                onJoinRoom={joinRoom}
+            />
         </div>
     );
 }
