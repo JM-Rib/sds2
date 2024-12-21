@@ -115,6 +115,11 @@ const Room = () => {
 
     return (
         <div className="main-content">
+            {}
+            <div className="room-id-display">
+                Room ID: {roomid}
+            </div>
+
             {(errorMessage || (roomState === "voting" && !currentUser)) && (
                 <div className="error-container">
                     <p className="error-message">
