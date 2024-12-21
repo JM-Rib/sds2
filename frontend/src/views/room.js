@@ -107,6 +107,13 @@ const Room = () => {
         }
     };
 
+    const handleExitRoom = () => {
+        if (socketRef.current) {
+            socketRef.current.emit("leave_room", { roomId: roomid });
+        }
+        navigate("/");
+    };
+
     const handleReconnect = () => {
         window.location.reload();
     };
@@ -137,9 +144,16 @@ const Room = () => {
             <button
                 className="invite-button"
                 onClick={handleInviteClick}
-                style={{ position: "absolute", top: 20, right: 20 }}
+                style={{position: "absolute", top: 20, right: 20}}
             >
                 Invite Players
+            </button>
+
+            <button
+                className="exit-button"
+                onClick={handleExitRoom}
+            >
+                Exit Room
             </button>
 
             {showInviteModal && (
@@ -148,7 +162,7 @@ const Room = () => {
                         <button
                             className="close-button"
                             onClick={handleCloseInviteModal}
-                            style={{ position: "absolute", top: 10, right: 10 }}
+                            style={{position: "absolute", top: 10, right: 10}}
                         >
                             X
                         </button>
@@ -166,7 +180,7 @@ const Room = () => {
                 </div>
             )}
 
-            <div className="timer" style={{ position: "absolute", bottom: 20, left: 20 }}>
+            <div className="timer" style={{position: "absolute", bottom: 20, left: 20}}>
                 Time Left: {String(Math.floor(timer / 60)).padStart(2, "0")}:
                 {String(timer % 60).padStart(2, "0")}
             </div>
@@ -208,7 +222,7 @@ const Room = () => {
                     </div>
                     {roomState === "voting" &&
                         userData[socketRef.current.id]?.vote === "-" && (
-                            <VoteSelect setVote={handleVote} />
+                            <VoteSelect setVote={handleVote}/>
                         )}
                 </>
             )}
