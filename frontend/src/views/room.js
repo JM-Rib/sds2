@@ -118,7 +118,15 @@ const Room = () => {
         window.location.reload();
     };
 
-    const allUsersVoted = Object.values(userData).every((user) => user.vote !== 0);
+    const allUsersVoted = () => {
+        var allVoted = true
+        Object.entries(userData).map(([socketId, user]) => {
+            if(user.vote === '-' || user.vote === 0){
+                allVoted = false;
+            }
+        });
+        return allVoted;
+    };
 
     return (
         <div className="main-content">
@@ -214,7 +222,7 @@ const Room = () => {
                             user?.displayName ? (
                                 <UserIcon
                                     key={socketId}
-                                    vote={allUsersVoted || timer === 0 ? user.vote : "-"}
+                                    vote={allUsersVoted() || timer === 0 ? user.vote : "-"}
                                     name={user.displayName.substring(0, 2)}
                                 />
                             ) : null
