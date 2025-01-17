@@ -222,7 +222,7 @@ const Room = () => {
                             user?.displayName ? (
                                 <UserIcon
                                     key={socketId}
-                                    vote={allUsersVoted() || timer === 0 ? user.vote : "-"}
+                                    vote={allUsersVoted() || roomState !== "voting" ? user.vote : "-"}
                                     name={user.displayName.substring(0, 2)}
                                 />
                             ) : null
