@@ -6,6 +6,7 @@ import VoteSelect from "../components/VoteSelect";
 import DisplayPrompt from "../components/DisplayPrompt";
 import WaitingRoundStart from "../components/WaitingRoundStart";
 import "./room.css";
+import WaitingForUsers from "../components/WaitingForUsers";
 
 const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
 
@@ -50,6 +51,7 @@ const Room = () => {
                     if (prev <= 1) {
                         clearInterval(interval);
                         socketRef.current.emit("end_voting", { roomId: roomid });
+                        setRoomState("waiting");
                         return 60;
                     }
                     return prev - 1;
@@ -228,10 +230,16 @@ const Room = () => {
                             ) : null
                         )}
                     </div>
-                    {roomState === "voting" &&
-                        userData[socketRef.current.id]?.vote === "-" && (
-                            <VoteSelect setVote={handleVote}/>
-                        )}
+                    {roomState === "voting" && (
+                        <>
+                            {userData[socketRef.current.id]?.vote !== "-" ? (
+                                <WaitingForUsers />
+                            ) : (
+                                <VoteSelect setVote={handleVote} />
+                            )}
+                        </>
+                    )}
+
                 </>
             )}
         </div>
