@@ -121,21 +121,39 @@ const Room = () => {
     };
 
     const allUsersVoted = () => {
-        var allVoted = true
+        var allVoted = true;
         Object.entries(userData).map(([socketId, user]) => {
-            if(user.vote === '-' || user.vote === 0){
+            if (user.vote === "-" || user.vote === 0) {
                 allVoted = false;
             }
         });
         return allVoted;
     };
 
+    // Calculate the average vote
+    const calculateVotesAverage = () => {
+        const votes = Object.values(userData).map((user) => user.vote).filter((vote) => vote !== "-" && vote !== 0);
+        if (votes.length === 0) {
+            return "-";
+        }
+
+        const total = votes.reduce((acc, vote) => acc + parseInt(vote, 10), 0);
+        const average = total / votes.length;
+        return average.toFixed(1); // Showing one decimal point
+    };
+
     return (
         <div className="main-content">
-            {}
             <div className="room-id-display">
                 Room ID: {roomid}
             </div>
+
+            {/* Show Votes average only when roomState is not "voting" */}
+            {roomState !== "voting" && (
+                <div className="votes-average-display">
+                    Votes average: {calculateVotesAverage()}
+                </div>
+            )}
 
             {(errorMessage || (roomState === "voting" && !currentUser)) && (
                 <div className="error-container">
@@ -239,7 +257,6 @@ const Room = () => {
                             )}
                         </>
                     )}
-
                 </>
             )}
         </div>
