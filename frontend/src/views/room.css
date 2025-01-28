@@ -242,6 +242,19 @@
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
+.votes-median-display {
+    position: absolute;
+    top: 160px; /* Below the room ID */
+    left: 20px;
+    background-color: #75858a; /* different light blue background */
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
 .exit-button {
     position: absolute;
     background-color: red;

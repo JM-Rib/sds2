@@ -142,6 +142,26 @@ const Room = () => {
         return average.toFixed(1); // Showing one decimal point
     };
 
+    const calculateVotesMedian = () => {
+        const votes = Object.values(userData)
+            .map((user) => user.vote)
+            .filter((vote) => vote !== "-" && vote !== 0)
+            .map((vote) => parseInt(vote, 10));
+
+        if (votes.length === 0) {
+            return "-";
+        }
+
+        votes.sort((a, b) => a - b);
+
+        const mid = Math.floor(votes.length / 2);
+        if (votes.length % 2 !== 0) {
+            return votes[mid];
+        }
+
+        return ((votes[mid - 1] + votes[mid]) / 2).toFixed(1);
+    };
+
     return (
         <div className="main-content">
             <div className="room-id-display">
@@ -152,6 +172,12 @@ const Room = () => {
             {roomState !== "voting" && (
                 <div className="votes-average-display">
                     Votes average: {calculateVotesAverage()}
+                </div>
+            )}
+
+            {roomState !== "voting" && (
+                <div className="votes-median-display">
+                    Votes median: {calculateVotesMedian()}
                 </div>
             )}
 
