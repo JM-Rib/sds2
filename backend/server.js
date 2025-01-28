@@ -2,7 +2,7 @@ import express from 'express';
 import http from 'http';
 import { Server } from "socket.io";
 import cors from "cors";
-import { CLIENT_URL } from "./config.js";
+import { CLIENT_URL, API_PORT } from "./config.js";
 
 const app = express();
 const server = http.createServer(app);
@@ -130,6 +130,6 @@ io.on("connection", (socket) => {
     });
 });
 
-server.listen(5000, () => {
+server.listen(API_PORT, () => {
     console.log("SERVER IS RUNNING");
 });
